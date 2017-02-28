@@ -47,6 +47,9 @@ class _NSintegralState(object):
     self.oldZ=-inf
     self.logw=0
     self.info=0
+    self.infoK=0.
+    self.infoM=0.
+    self.infoNew=0.
     # Start with a dummy sample enclosing the whole prior
     self.logLs=[-inf] # Likelihoods sampled
     self.log_vols=[0.0] # Volumes enclosed by contours
@@ -65,8 +68,11 @@ class _NSintegralState(object):
     self.logZ = logaddexp(self.logZ,Wt)
     # Update information estimate
     if np.isfinite(oldZ) and np.isfinite(self.logZ):
+      self.infoK = exp(oldZ-self.logZ)*self.infoK + exp(Wt-self.logZ)*logL
+      self.infoM = exp(oldZ-self.logZ)*self.infoM*(self.logZ/oldZ) + exp(Wt-self.logZ)*self.logZ
+      self.infoNew = self.infoK - self.infoM
       self.info = exp(Wt - self.logZ)*logL + exp(oldZ - self.logZ)*(self.info + oldZ) - self.logZ
-    
+
     # Update history
     self.logw += logt
     self.iteration += 1

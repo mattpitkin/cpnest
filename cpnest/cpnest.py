@@ -23,7 +23,7 @@ class CPNest(object):
                       This may cause bias if parts of your parameter space are more expensive than others.
                       Default: True    
     """
-    def __init__(self,userclass,Nlive=100,output='./',verbose=0,seed=None,maxmcmc=100,Nthreads=None,balance_samplers=True,poolsize=100,proposals=None,proposalweights=None):
+    def __init__(self,usermodel,Nlive=100,output='./',verbose=0,seed=None,maxmcmc=100,Nthreads=None,balance_samplers=True,poolsize=100,proposals=None,proposalweights=None):
         if Nthreads is None:
             Nthreads = mp.cpu_count()
         print('Running with {0} parallel threads'.format(Nthreads))
